@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: fde259ebbfed3114c9775d40d350c67d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - battleLayout: {instanceID: 0}
+  - mainCameraTransform: {instanceID: 0}
+  - playerTransform: {instanceID: 0}
+  - displayText: {instanceID: 0}
+  - clippop: {instanceID: 0}
+  - musicClip: {instanceID: 0}
+  - planetsHolder: {fileID: 3683098000375585655, guid: 8fb2985b70e020f438b855f5c47dbf15,
+      type: 3}
+  - enemiesHolder: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
