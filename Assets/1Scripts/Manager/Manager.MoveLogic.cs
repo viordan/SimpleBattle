@@ -31,9 +31,11 @@ public partial class Manager : MonoBehaviour {
 
 	void MoveToSelectedLevel(LevelWrap level) {
 		SetupLevel(level);
-		MoveTrasformToLocation(playerTransform, level.levelTransform, .5f);
+		StartCoroutine(RotateTransform(currentSelectedPlanet.planetTransform, currentSelectedPlanet.planetTransform.localRotation, .1f, 0f, level));
 		CurrentGameState = GameState.InBattle;
 	}
+	
+
 
 	//core move logic
 	/// <summary>
@@ -46,15 +48,20 @@ public partial class Manager : MonoBehaviour {
 	/// <param name="counter"> you can control the percentage with this value for a partial action, 0 is 100% 0.1 is 90%, 0.2 80% all the way to 1 is 0%</param>
 	/// <returns></returns>
 	IEnumerator MoveTransform(Transform whatToMove, Vector3 currentPos, Vector3 newPos, float duration, float counter) {// must cache the positions otherwise the lerp recalculates the position at each step!!!!!
-		allowInput = false;
-		currentSelectedPlanet.stopRotation = true;
+		MoveState(true, newPos);
 		while (counter < duration) {
 			counter += Time.deltaTime;
 			whatToMove.position = Vector3.Lerp(currentPos, newPos, counter / duration);
 			yield return null;
 		}
-		currentSelectedPlanet.stopRotation = false;
-		allowInput = true;
+		MoveState(false, newPos);
+	}
+
+	void MoveState( bool started,Vector3 whereToLook ) {
+		mainCameraTransform.GetChild(0).LookAt(whereToLook);
+		warpDrive.SetActive(started);
+		allowInput=!started;
+		currentSelectedPlanet.allowRotation=!started;
 	}
 
 	/// <summary>
@@ -71,6 +78,16 @@ public partial class Manager : MonoBehaviour {
 			whatToRotate.rotation = Quaternion.Lerp(currentRot, newRot, counter / duration);
 			yield return null;
 		}
+	}
+	//Overload for planet positioning.
+	IEnumerator RotateTransform( Transform whatToRotate, Quaternion currentRot, float duration, float counter, LevelWrap level ) {// must cache the positions otherwise the lerp recalculates the position at each step!!!!!
+		MoveState(true, whatToRotate.position);
+		while ( counter<duration ) {
+			counter+=Time.deltaTime;
+			whatToRotate.localRotation=Quaternion.Lerp(currentRot, currentSelectedPlanet.levelPositions[level.id], counter/duration);
+			yield return null;
+		}
+		MoveTrasformToLocation(playerTransform, level.levelTransform, .5f);
 	}
 
 	/// <summary>

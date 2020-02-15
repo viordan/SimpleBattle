@@ -2,9 +2,9 @@
 
 public class Rotate : MonoBehaviour {
 	public float rotateSpeed = 10;
-	public bool stopRotation = false;
+	public bool allowRotation = true;
 	void Update() {
-		if (!stopRotation) {
+		if (allowRotation) {
 			RotateObject();
 		}
 	}

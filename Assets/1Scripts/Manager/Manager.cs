@@ -7,6 +7,12 @@ public partial class Manager : MonoBehaviour {
 	static public GameData saveDataInMememory;
 	static public SettingsData settingsDataInMemory;
 
+
+
+	[Header("Game Effects")]
+
+	[SerializeField] GameObject warpDrive;
+
 	[Header("Game Meta")]
 	public bool allowInput; //ability to disable input
 	private GameState gameState;
@@ -33,6 +39,7 @@ public partial class Manager : MonoBehaviour {
 	}
 
 	void Awake() {
+		InitializeEffects();
 		InitializeManager();
 		InitializeInput(); // initialize input
 		InitializeWorld(); // get all the components
@@ -41,6 +48,10 @@ public partial class Manager : MonoBehaviour {
 		InitilizeSounds();
 		InitializeBattle(); // get the battle default layout
 		InistializeMenuButtons();
+	}
+
+	void InitializeEffects() {
+		warpDrive.SetActive(false);
 	}
 
 	void InitializeManager() {
